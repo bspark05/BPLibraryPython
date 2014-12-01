@@ -4,9 +4,9 @@ Created on Nov 28, 2014
 @author: Administrator
 '''
 
-import FoursquareAPI as fsAPI
-import FsURL as fsURL
-import FsToken as fstoken
+import Web.APIs.Foursquare.FoursquareAPI as fsAPI
+import Web.APIs.Foursquare.FsURL as fsURL
+import Web.APIs.Foursquare.FsToken as fstoken
 import Neo4jRESTAPI as neo4j
 import Process as process
 
