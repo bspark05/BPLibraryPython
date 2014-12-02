@@ -5,8 +5,7 @@ Created on Nov 28, 2014
 '''
 import json
 import requests
-from _pytest.pastebin import url
-from _license import json
+
 
 def venues_search(url):
     request = requests.get(url)

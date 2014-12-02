@@ -52,3 +52,15 @@ def checkList(oneVenue, fromList):
     fromList.append(oneVenue)
     print('added value = '+ oneVenue[0])
     return fromList
+
+def setAttributes(venue):
+    attribute = ''
+    attribute+= '{ \"name\" : \"'+ venue[1] +'\", '
+    attribute+= ' \"category\" : \"' + venue[2] +'\", '
+    attribute+= ' \"lat\" : \"' + str(venue[3]) + '\", '
+    attribute+= ' \"lng\" : \"' + str(venue[4]) + '\", '
+    attribute+= ' \"checkins\" : \"' + str(venue[5]) + '\", '
+    attribute+= ' \"users\" : \"' + str(venue[6]) + '\"}'
+    print(attribute)
+    return attribute;
+    

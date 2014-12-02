@@ -22,11 +22,14 @@ if __name__ == '__main__':
         tokenSet = token[i%len(token)]
         url1 = fsURL.makeURL_venues_nextVenues(fromList[i][0], tokenSet)
         venues1 = fsAPI.venues_NextVenues(url1)
-        starNode = neo4j.createUniqueNode("Id", fromList[i][0], None)
+        
+        nodeAttribute1 = process.setAttributes(fromList[i])
+        starNode = neo4j.createUniqueNode("Id", fromList[i][0], nodeAttribute1)
         
         
         for j in venues1 :
-            endNode = neo4j.createUniqueNode("Id", j[0], None)
+            nodeAttribute2 = process.setAttributes(j)
+            endNode = neo4j.createUniqueNode("Id", j[0], nodeAttribute2)
             relationId = fromList[i][0]+"_to_"+j[0]
             relation = neo4j.addUniqueRelationship("Id", relationId, starNode, endNode, None)
         
