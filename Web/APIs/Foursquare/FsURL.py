@@ -25,7 +25,7 @@ def makeURL_venues_search(radius, lat, lng, tokenSet):
     clientSc = tokenSet[1]
     tokenDate = tokenSet[2]
     
-    url = 'https://api.foursquare.com/v2/venues/search?ll='+lat+','+lng+'&radius='+radius+'&limit=50&&client_id='+clientId+'&client_secret='+clientSc+'&v='+tokenDate
+    url = 'https://api.foursquare.com/v2/venues/search?ll='+lat+','+lng+'&radius='+radius+'&limit=50&&client_id='+clientId.value+'&client_secret='+clientSc.value+'&v='+tokenDate.value
     
     return url
 
@@ -34,5 +34,7 @@ def makeURL_venues_nextVenues(placeID, tokenSet):
     clientSc = tokenSet[1]
     tokenDate = tokenSet[2]
     
-    url = 'https://api.foursquare.com/v2/venues/'+placeID+'/nextvenues?client_id='+clientId+'&client_secret='+clientSc+'&v='+tokenDate
+    url = 'https://api.foursquare.com/v2/venues/'+placeID+'/nextvenues?client_id='+clientId.value+'&client_secret='+clientSc.value+'&v='+tokenDate.value
+    
+    print(url)
     return url

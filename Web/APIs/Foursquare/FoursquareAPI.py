@@ -11,14 +11,16 @@ from _license import json
 def venues_search(url):
     request = requests.get(url)
     fsdata = json.loads(request.text)
+    
     fsout = []
     
     for item in fsdata['response']['venues']:
         fstemp = []
-        fstemp.append(item['id'])
-        fstemp.append(item['name'])
+        fstemp.append(item['id'].encode("ascii", "ignore"))
+        fstemp.append(item['name'].encode("ascii", "ignore"))
         
-        fstemp.append(item['categories']['name'])
+        arr2 = item['categories']
+        fstemp.append(arr2[0]['name'].encode("ascii", "ignore"))
         
         fstemp.append(item['location']['lat'])
         fstemp.append(item['location']['lng'])
@@ -31,16 +33,18 @@ def venues_search(url):
     
         
 def venues_NextVenues(url):
+    
     request =requests.get(url)
     fsdata = json.loads(request.text)
     fsout = []
     
     for item in fsdata['response']['nextVenues']['items']:
         fstemp = []
-        fstemp.append(item['id'])
-        fstemp.append(item['name'])
+        fstemp.append(item['id'].encode("ascii", "ignore"))
+        fstemp.append(item['name'].encode("ascii", "ignore"))
         
-        fstemp.append(item['categories']['name'])
+        arr2 = item['categories']
+        fstemp.append(arr2[0]['name'].encode("ascii", "ignore"))
         
         fstemp.append(item['location']['lat'])
         fstemp.append(item['location']['lng'])
