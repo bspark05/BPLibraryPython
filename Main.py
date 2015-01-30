@@ -11,6 +11,7 @@ import Database.Neo4j.Neo4jRESTAPI as neo4j
 import Process as process
 import Database.Neo4j.Neo4jQuery as query
 from neo4jrestclient.client import GraphDatabase
+import shapefile
 
 
 
@@ -26,7 +27,7 @@ if __name__ == '__main__':
     print(len(fromList))
     
 
-
+    '''
         
     token = fstoken.tokenReady("tokenList.xls", "Sheet1")
     
@@ -47,7 +48,7 @@ if __name__ == '__main__':
     
     
 # insert a field for isLast
-    results_all1= query.findAllNodes('id')
+    results_all1= query.findAllNodes1('id')
     
     for nodes in results_all1:
         node = nodes[0]
@@ -62,7 +63,7 @@ if __name__ == '__main__':
 
 
 # insert a field for no. of relationships
-    results_all = query.findAllNodes('id')
+    results_all = query.findAllNodes1('id')
     
     for nodes in results_all:
         node = nodes[0]
@@ -72,7 +73,15 @@ if __name__ == '__main__':
         q_write = "MATCH (n{id:'"+node+"'}) SET n.RelCount="+str(results_node[0][0])+" RETURN n.name"
         results_write = gdb.query(q=q_write)
         print([results_node[0][0],results_write[0][0]])
-    
+    '''
 # convert to shp file
-    
-    
+    results_point = query.findAllNodes()
+    shp = shapefile.Writer(shapefile.POINT)
+    shp.field('name')
+    shp.field('category')
+    for pnt in results_point:
+        shp.point(float(pnt[0]['data']['lng']),float(pnt[0]['data']['lat']))
+        shp.record(str(pnt[0]['data']['name']),str(pnt[0]['data']['category']))
+        print(pnt[0]['data']['name'])
+    shp.save('shapefiles/test/point')
+        
