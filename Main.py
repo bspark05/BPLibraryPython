@@ -13,6 +13,7 @@ import Database.Neo4j.Neo4jQuery as query
 from neo4jrestclient.client import GraphDatabase
 
 
+
 SERVER_ROOT_URI = 'http://localhost:7474/db/data/'
 gdb = GraphDatabase(SERVER_ROOT_URI)
     
