@@ -6,13 +6,12 @@ Created on Dec 1, 2014
 
 import Database.Neo4j.Relationship as relationship
 import requests
+import Variables as var
 
-
-SERVER_ROOT_URI = 'http://localhost:7474'
 
 def createUniqueNode(key, value, jsonAttributes):
     try:
-        nodePointUrl = SERVER_ROOT_URI + '/db/data/index/node/venue?uniqueness=get_or_create'
+        nodePointUrl = var.SERVER_ROOT_URI + '/db/data/index/node/venue?uniqueness=get_or_create'
         
         # set json payload
         nodeKeyValueJson = generateJsonUniqueNode(key, value, jsonAttributes)

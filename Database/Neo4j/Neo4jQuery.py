@@ -4,9 +4,9 @@ Created on Jan 13, 2015
 @author: Bumsub
 '''
 from neo4jrestclient.client import GraphDatabase
+import Variables as var
 
-SERVER_ROOT_URI = 'http://localhost:7474/db/data/'
-gdb = GraphDatabase(SERVER_ROOT_URI)
+gdb = GraphDatabase(var.SERVER_ROOT_URI)
 
 def setAttributesNode(venue):
     attribute = ""

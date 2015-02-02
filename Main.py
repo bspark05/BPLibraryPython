@@ -13,22 +13,23 @@ from neo4jrestclient.client import GraphDatabase
 import shapefile
 import xlrd
 import xlwt
+import Variables as var
 
 
-SERVER_ROOT_URI = 'http://localhost:7474/db/data/'
-gdb = GraphDatabase(SERVER_ROOT_URI)
+
+gdb = GraphDatabase(var.SERVER_ROOT_URI)
     
     
 if __name__ == '__main__':
     
-    url = "https://api.foursquare.com/v2/venues/4a8b60c7f964a5204d0c20e3/nextvenues?client_id=S3TCARJS00I452G1FSIPZZ0LDOKWX5MBCJ3V1SYPKS2V4Z2I&client_secret=JBJBBXH1RN4D105TFW0O4YEEUAJ2PCKOF5PZEYSBXARLGGZJ&v=20141006"
+    url = var.start_venue("49d77968f964a520275d1fe3")
     venues = fsAPI.venues_NextVenues(url)
     
-    fromListIndex=1
-    iterationDepth = 1
+    fromListIndex= 0
+    iterationDepth = 4
     
     if fromListIndex == 0:
-        fromList = process.iteration(1, venues)
+        fromList = process.iteration(iterationDepth, venues)
         
 
         workbookOut = xlwt.Workbook()
@@ -92,30 +93,25 @@ if __name__ == '__main__':
             
     
 # insert a field for isLast
-    results_all1= query.findAllNodes1('id')
-    
-    for nodes in results_all1:
-        node = nodes[0]
-        q_isLast1 = "MATCH (n{id:'"+node+"'}) SET n.isLast = 1 RETURN n.name, n.isLast"
-        results_isLast1 = gdb.query(q=q_isLast1)    
-    
-    for k in fromList:
-        id_fromList=k[0]
-        q_isLast2="MATCH (k {id:'"+id_fromList+"'}) SET k.isLast = 0 RETURN k.name, k.isLast"
-        results_isLast2 = gdb.query(q=q_isLast2)
-        #print(results_isLast2[0])
-
-
 # insert a field for no. of relationships
     results_all = query.findAllNodes1('id')
     
     for nodes in results_all:
         node = nodes[0]
-        q_node = "MATCH (n{id:'"+node+"'})<--(x) RETURN count(n)"
-        results_node = gdb.query(q=q_node)
+        q_rel = "MATCH (n{id:'"+node+"'})<--(x) RETURN count(n)"
+        q_isLast = "MATCH (n{id:'"+node+"'})-->(x) RETURN count(n)"
+        results_rel = gdb.query(q=q_rel)
+        results_isLast = gdb.query(q=q_isLast)
     
-        q_write = "MATCH (n{id:'"+node+"'}) SET n.RelCount="+str(results_node[0][0])+" RETURN n.name"
-        results_write = gdb.query(q=q_write)
+        q_rel1 = "MATCH (n{id:'"+node+"'}) SET n.RelCount="+str(results_rel[0][0])+" RETURN n.name"
+        results_rel1 = gdb.query(q=q_rel1)
+        
+        if results_isLast[0][0] == 0:            
+            q_isLast1 = "MATCH (n{id:'"+node+"'}) SET n.isLast = 1 RETURN n.name, n.isLast"
+            results_isLast1 = gdb.query(q=q_isLast1)
+        else : 
+            q_isLast1 = "MATCH (n{id:'"+node+"'}) SET n.isLast = 0 RETURN n.name, n.isLast"
+            results_isLast1 = gdb.query(q=q_isLast1)
         #print([results_node[0][0],results_write[0][0]])
 
     
@@ -139,7 +135,7 @@ if __name__ == '__main__':
         shp.record(pnt[0]['data']['id'],pnt[0]['data']['name'],pnt[0]['data']['category'],pnt[0]['data']['lat'],pnt[0]['data']['lng'],pnt[0]['data']['checkins'],pnt[0]['data']['users'],
                    pnt[0]['data']['isLast'],pnt[0]['data']['RelCount'])
         #print(pnt[0]['data']['name'])
-    shp.save('shapefile/test/point1')
+    shp.save('shapefile/test/point_chicago1')
 
  
 # convert to shpfile_Line
@@ -165,7 +161,7 @@ if __name__ == '__main__':
         shp_line.line(parts=[[[line[0]['data']['fromLng'],line[0]['data']['fromLat']],[line[0]['data']['toLng'],line[0]['data']['toLat']]]])
         shp_line.record(line[0]['data']['fromLng'],line[0]['data']['fromLat'],line[0]['data']['fromId'],line[0]['data']['fromName'],line[0]['data']['fromCate'],line[0]['data']['fromCheckins'],line[0]['data']['fromUsers'],
                     line[0]['data']['toLng'],line[0]['data']['toLat'],line[0]['data']['toId'],line[0]['data']['toName'],line[0]['data']['toCate'],line[0]['data']['toCheckins'],line[0]['data']['toUsers'])    
-    shp_line.save('shapefile/test/line1')
+    shp_line.save('shapefile/test/line_chicago1')
 
     
     
