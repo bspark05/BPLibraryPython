@@ -26,7 +26,7 @@ if __name__ == '__main__':
     venues = fsAPI.venues_NextVenues(url)
     
     fromListIndex= 0
-    iterationDepth = 4
+    iterationDepth = 1
     
     if fromListIndex == 0:
         fromList = process.iteration(iterationDepth, venues)
@@ -70,9 +70,9 @@ if __name__ == '__main__':
     
     
     
-    for list in fromList:
-        attribute = query.setAttributesNode(list)
-        startNode = query.createUniqueNode(attribute)
+    for list1 in fromList:
+        attribute = query.setAttributesNode(list1)
+        startNode = query.createUniqueNode2("venue",attribute)
 
     token = fstoken.tokenReady("tokenList.xls", "Sheet1")
     
@@ -82,11 +82,11 @@ if __name__ == '__main__':
         venues1 = fsAPI.venues_NextVenues(url1)
         
         nodeAttribute1 = query.setAttributesNode(fromList[i])
-        starNode = query.createUniqueNode(nodeAttribute1)
+        starNode = query.createUniqueNode2("venue",nodeAttribute1)
         
         for j in venues1 :
             nodeAttribute2 = query.setAttributesNode(j)
-            endNode = query.createUniqueNode(nodeAttribute2)
+            endNode = query.createUniqueNode2("venue",nodeAttribute2)
             
             relAttribute = query.setAttributesRel(starNode[0], endNode[0])
             relation = query.addUniqueRelationship(starNode[0], endNode[0], relAttribute)
@@ -115,7 +115,7 @@ if __name__ == '__main__':
         #print([results_node[0][0],results_write[0][0]])
 
     
-    
+    '''
 # convert to shpfile_Point
     results_point = query.findAllNodes()    
     shp = shapefile.Writer(shapefile.POINT)
@@ -163,6 +163,7 @@ if __name__ == '__main__':
                     line[0]['data']['toLng'],line[0]['data']['toLat'],line[0]['data']['toId'],line[0]['data']['toName'],line[0]['data']['toCate'],line[0]['data']['toCheckins'],line[0]['data']['toUsers'])    
     shp_line.save('shapefile/test/line_chicago1')
 
+    '''
     
     
     

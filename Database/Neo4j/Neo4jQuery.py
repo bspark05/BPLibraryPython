@@ -20,7 +20,13 @@ def setAttributesNode(venue):
     #print(attribute)
     return attribute;
 
-def createUniqueNode(attribute):
+def createUniqueNode2(label, attribute):
+    q_node = "MERGE (n:"+label+" "+attribute+") RETURN n"
+    result = gdb.query(q=q_node)
+    #print(result[0])
+    return result[0]
+
+def createUniqueNode1(attribute):
     q_node = "MERGE (n "+attribute+") RETURN n"
     result = gdb.query(q=q_node)
     #print(result[0])

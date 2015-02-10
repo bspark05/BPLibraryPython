@@ -51,7 +51,7 @@ def generateJsonUniqueNode(key, value, jsonAttributes):
         
 def addUniqueRelationship(key, value, startNodeURI, endNodeURI, jsonAttributes):
     try:
-        fromUrl = SERVER_ROOT_URI +'/db/data/index/relationship/rels?uniqueness=get_or_create'
+        fromUrl = var.SERVER_ROOT_URI +'/db/data/index/relationship/rels?uniqueness=get_or_create'
         print('from URL : '+ fromUrl)
         
         relationshipJson = generateJsonUniqueRelationship(key, value, startNodeURI, endNodeURI, jsonAttributes)
